@@ -14,10 +14,10 @@ services:
       context: ./node
       dockerfile: Dockerfile
     ports:
-      - "5000:80"
+      - "5000:80" # Map the port 80 of the container to port 5000 of the host
     environment:
-      NODE_ID: 0
-      REGISTRY_URL: "http://registry:8080"  # Use the service name as the hostname
+      NODE_ID: 0 # Define the node ID
+      REGISTRY_URL: "http://registry:8080"  # Use the registry URL
     networks:
       - app-network  # Same network as the registry
     depends_on:
