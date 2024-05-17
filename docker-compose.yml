@@ -14,7 +14,7 @@ services:
       context: ./node
       dockerfile: Dockerfile
     ports:
-      - "5001:80"
+      - "5000:80"
     environment:
       NODE_ID: 0
       REGISTRY_URL: "http://registry:8080"  # Use the service name as the hostname
@@ -28,7 +28,7 @@ services:
       context: ./node
       dockerfile: Dockerfile
     ports:
-      - "5002:80"
+      - "5001:80"
     environment:
       NODE_ID: 1
       REGISTRY_URL: "http://registry:8080"
@@ -36,13 +36,14 @@ services:
       - app-network
     depends_on:
       - registry
+      - node0  # Ensure node0 is started first
 
   node2:
     build:
       context: ./node
       dockerfile: Dockerfile
     ports:
-      - "5003:80"
+      - "5002:80"
     environment:
       NODE_ID: 2
       REGISTRY_URL: "http://registry:8080"
@@ -50,20 +51,7 @@ services:
       - app-network
     depends_on:
       - registry
-
-  node3:
-    build:
-      context: ./node
-      dockerfile: Dockerfile
-    ports:
-      - "5004:80"
-    environment:
-      NODE_ID: 3
-      REGISTRY_URL: "http://registry:8080"
-    networks:
-      - app-network
-    depends_on:
-      - registry
+      - node1  # Ensure node1 is started first
 
 networks:
   app-network:

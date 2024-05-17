@@ -1,18 +1,18 @@
-# Uso de una imagen base Python
+# Use image of Python 3.9 slim version as base image
 FROM python:3.9-slim
 
-# Establecer el directorio de trabajo en el contenedor
+# Establish the working directory
 WORKDIR /app
 
-# Copiar el archivo de requisitos y luego instalar las dependencias
+# Copy the requirements file to the working directory and install the dependencies
 COPY requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copiar el resto del directorio del nodo al directorio de trabajo
+# Copy the application code to the working directory
 COPY . .
 
-# Definir el puerto en el que se expondrá el contenedor
+# Expose the port 80
 EXPOSE 80
 
-# El comando para ejecutar la aplicación
+# Run the application
 CMD ["python", "node.py"]
