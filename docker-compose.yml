@@ -1,0 +1,70 @@
+version: '3.8'  # Ensure version compatibility
+services:
+  registry:
+    build:
+      context: ./registry
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    networks:
+      - app-network  # define the network to be used by this service
+
+  node0:
+    build:
+      context: ./node
+      dockerfile: Dockerfile
+    ports:
+      - "5001:80"
+    environment:
+      NODE_ID: 0
+      REGISTRY_URL: "http://registry:8080"  # Use the service name as the hostname
+    networks:
+      - app-network  # Same network as the registry
+    depends_on:
+      - registry  # Ensure registry is started first
+
+  node1:
+    build:
+      context: ./node
+      dockerfile: Dockerfile
+    ports:
+      - "5002:80"
+    environment:
+      NODE_ID: 1
+      REGISTRY_URL: "http://registry:8080"
+    networks:
+      - app-network
+    depends_on:
+      - registry
+
+  node2:
+    build:
+      context: ./node
+      dockerfile: Dockerfile
+    ports:
+      - "5003:80"
+    environment:
+      NODE_ID: 2
+      REGISTRY_URL: "http://registry:8080"
+    networks:
+      - app-network
+    depends_on:
+      - registry
+
+  node3:
+    build:
+      context: ./node
+      dockerfile: Dockerfile
+    ports:
+      - "5004:80"
+    environment:
+      NODE_ID: 3
+      REGISTRY_URL: "http://registry:8080"
+    networks:
+      - app-network
+    depends_on:
+      - registry
+
+networks:
+  app-network:
+    driver: bridge
